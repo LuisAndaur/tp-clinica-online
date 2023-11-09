@@ -1,0 +1,168 @@
+<main class="main center">
+  <div class="container-fluid">
+    <h1>
+      Administración de usuarios
+    </h1>
+    <div *ngIf="this.usuarios.length; else noHayUsuarios"
+      class="table-responsive">
+      <table class="table" id="excel-table">
+        <thead>
+          <tr>
+            <th>fecha de registro</th>
+            <th>nombre</th>
+            <th>apellido</th>
+            <th>edad</th>
+            <th>dni</th>
+            <th *ngIf="false">obraSocial</th>
+            <th *ngIf="false">especialidad</th>
+            <th>correo</th>
+            <th>
+              <i (click)="cambiarVistasDeClaves()"
+              [ngClass]="{'bi bi-eye': verClaves, 'bi bi-eye-slash': !verClaves}">
+              </i>
+              clave
+            </th>
+            <th>rol</th>
+            <th>estado</th>
+            <th>acción</th>
+            <th *ngIf="false">ver</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios; index as posicion">
+            <td>{{usuario.fechaRegistro | date: 'dd/MM/yyyy'}}</td>
+            <td>{{usuario.nombre}}</td>
+            <td>{{usuario.apellido}}</td>
+            <td>{{usuario.edad}}</td>
+            <td>{{usuario.dni}}</td>
+            <td *ngIf="false">
+              <ng-container *ngIf="usuario.rol == 'paciente';else noEsPaciente">
+                {{usuario.obraSocial}}
+              </ng-container>
+              <ng-template #noEsPaciente>
+                N/A
+              </ng-template>
+            </td>
+            <td *ngIf="false">
+              <ng-container *ngIf="usuario.rol == 'especialista';else noEsEspecialista">
+                {{usuario.especialidad}}
+              </ng-container>
+              <ng-template #noEsEspecialista>
+                N/A
+              </ng-template>
+            </td>
+            <td>{{usuario.correo}}</td>
+            <td>
+              <i (click)="cambiarVistaClave(posicion)"
+                [ngClass]="{'bi bi-eye': verClave[posicion], 'bi bi-eye-slash': !verClave[posicion]}">
+              </i>
+              <ng-container *ngIf="verClave[posicion]; else claveOculta">
+                {{usuario.clave}}
+              </ng-container>
+              <ng-template #claveOculta>
+                {{posicionesClave(usuario.clave)}}
+              </ng-template>
+            </td>
+            <td>{{usuario.rol}}</td>
+            <td>
+              <ng-container *ngIf="usuario.rol == 'especialista' ; else noEsEspecialista2">
+                <strong class="d-inline-block me-1">
+                  <em>{{usuario.estado}}</em>
+                </strong>
+              </ng-container>
+              <ng-template #noEsEspecialista2>
+                N/A
+              </ng-template>
+            </td>
+
+            <td>
+              <ng-container *ngIf="usuario.rol == 'especialista' ; else noEsEspecialista2">
+                <button class="btn btn-success" (click)="aceptarUsuario(usuario)"
+                  [disabled]="permitirActualizarEstado(usuario,'aceptado')">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+                <button class="btn btn-danger" (click)="rechazarUsuario(usuario)"
+                  [disabled]="permitirActualizarEstado(usuario,'rechazado')">
+                  <i class="bi bi-x-circle"></i>
+                </button>
+              </ng-container>
+              <ng-template #noEsEspecialista2>
+                N/A
+              </ng-template>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noHayUsuarios>
+      <div class="mb-3">
+        <div *ngIf="faltaCargarUsuarios;else baseVacia" class="border rounded-3 px-2 py-1 text-light">
+          <h3 class="text-center">Los usuarios se están cargando</h3>
+          <div class="text-center">
+            <div class="spinner-border "></div>
+          </div>
+        </div>
+        <ng-template #baseVacia>
+          <div class="border rounded-3 px-2 py-1 text-light">
+            <h3 class="text-center">No hay usuarios en la Base de Datos</h3>
+          </div>
+        </ng-template>
+      </div>
+    </ng-template>
+
+    <div>
+      <p class="alert">
+        <i class="bi bi-info-circle"></i> Cambiar los estados a un especialista   |
+        <i class="bi bi-check-circle"></i> : Aceptar   |
+        <i class="bi bi-x-circle"></i> : Rechazar
+      </p>
+    </div>
+
+    <div class="btn-group text-center w-100 my-3">
+      <button class="btn btn-outline-secondary py-3"
+        (click)="agregarEspecialista()">
+        Agregar Especialista
+      </button>
+      <button class="btn btn-outline-secondary py-3"
+        (click)="agregarAdministrador()">
+        Agregar Administrador
+      </button>
+      <button class="btn btn-outline-secondary py-3"
+        (click)="agregarPaciente()">
+        Agregar Paciente
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div *ngIf="paciente">
+      <div class="position-relative">
+        <h1 *ngIf="!paciente.id;else elsePaciente">Alta paciente</h1>
+        <ng-template #elsePaciente><h1>Datos del paciente</h1></ng-template>
+        <div *ngIf="soloVer" class="soloVer" title="No esta permitido modificar, solo es lectura"></div>
+        <app-registro-paciente [paciente]="paciente"></app-registro-paciente>
+      </div>
+      <button class="btn btn-outline-danger w-100 py-3 mb-3" type="button" (click)="paciente = null">Cancelar</button>
+    </div>
+    <div *ngIf="especialista">
+      <div class="position-relative">
+        <h1 *ngIf="!especialista.id;else elseEspecialista">Alta especialista</h1>
+        <ng-template #elseEspecialista><h1>Datos del especialista</h1></ng-template>
+        <div *ngIf="soloVer" class="soloVer" title="No esta permitido modificar, solo es lectura"></div>
+        <app-registro-especialista  [especialista]="especialista"></app-registro-especialista>
+      </div>
+      <button class="btn btn-outline-danger w-100 py-3 mb-3" type="button" (click)="especialista = null">Cancelar</button>
+    </div>
+    <div *ngIf="administrador">
+      <div class="position-relative">
+        <h1 *ngIf="!administrador.id;else elseAdministrador">Alta administrador</h1>
+        <ng-template #elseAdministrador><h1>Datos del administrador</h1></ng-template>
+        <div *ngIf="soloVer" class="soloVer" title="No esta permitido modificar, solo es lectura"></div>
+        <app-registro-administrador [administrador]="administrador"></app-registro-administrador>
+      </div>
+      <button class="btn btn-outline-danger w-100 py-3 mb-3" type="button" (click)="administrador = null">Cancelar</button>
+    </div>
+  </div>
+</main>

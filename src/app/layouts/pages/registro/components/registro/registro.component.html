@@ -1,0 +1,25 @@
+<main class="main center">
+  <section class="eleccion container rounded py-3">
+    <h2 class="text-center">Registrarme como:</h2>
+    <form>
+      <div class="row text-center">
+        <div class="col-md">
+          <div class="form-floating">
+            <select class="form-select" id="floatingSelectGrid" #selectRol (change)="cambiarRol()">
+              <option selected>Abrir este menú de selección</option>
+              <option [value]="'especialista'">Especialista</option>
+              <option [value]="'paciente'">Paciente</option>
+            </select>
+            <label for="floatingSelectGrid">Seleccione</label>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ng-container [ngSwitch]="rol">
+      <app-registro-paciente *ngSwitchCase="'paciente'"></app-registro-paciente>
+      <app-registro-especialista *ngSwitchCase="'especialista'"></app-registro-especialista>
+      <ng-container *ngSwitchCase="'sin elegir'"></ng-container>
+      <h1 *ngSwitchDefault>Seleccione como se quiere registrar...</h1>
+    </ng-container>
+  </section>
+</main>

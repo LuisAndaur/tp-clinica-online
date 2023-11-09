@@ -1,0 +1,17 @@
+<main class="main center">
+  <section class="bg rounded p-4 slide-in-elliptic-top-fwd">
+    <h4 class="mb-3">TP: <strong><em>Clínica Online</em></strong>!</h4>
+    <h3 class="h6 text-gray">Alumno: Luis Andaur</h3>
+    <h2 class="mb-3">¡Bienvenido a la <strong><em>Clínica Online</em></strong>!</h2>
+    <div class="btn-group" *ngIf="!usuarioLogeado">
+      <button class="btn btn-outline-info" type="button"
+        [routerLink]="'/login'">
+        Iniciar sesión
+      </button>
+      <button class="btn btn-outline-primary" type="button"
+      [routerLink]="'/registro'">
+      Registrarse
+      </button>
+    </div>
+  </section>
+</main>

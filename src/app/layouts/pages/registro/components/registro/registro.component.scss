@@ -1,0 +1,41 @@
+.main{
+  height: calc(100vh - var(--nav-height));
+  background-image: url('../../../../../../assets/bg/clinica-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.radio {
+  display: none;
+}
+
+// label {
+//   display: inline-block;
+//   cursor: pointer;
+// }
+
+.radio-image {
+  border: 1rem solid transparent;
+  border-radius: 50%;
+  // border-color: var(--bs-danger);
+}
+
+input[type="radio"]:checked + label .radio-image {
+  border-color: var(--bs-primary);
+}
+
+@media (max-width: 768px){
+
+  // .main{
+  //   min-height: 1000px;
+  // }
+
+  .radio-image{
+    width: 75%;
+  }
+}
+
+// label{
+//   background-color: var(--bs-info);
+//   border-radius: 50%;
+// }

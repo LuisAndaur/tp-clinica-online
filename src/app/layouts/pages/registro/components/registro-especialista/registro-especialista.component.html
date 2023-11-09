@@ -1,0 +1,241 @@
+<form [formGroup]="form" (ngSubmit)="enviar()" class="slide-in-left">
+  <div class="row">
+
+    <!-- NOMBRE -->
+    <div class="form-floating col-4">
+      <div class="form-floating mt-3">
+        <input type="text" class="form-control" id="floatingNombre" placeholder="Nombre" formControlName="nombre">
+        <label for="floatingNombre">Nombre</label>
+      </div>
+      <div *ngIf="form.controls['nombre'].errors != null">
+        <small *ngIf="form.controls['nombre'].errors!['required'] && form.controls['nombre'].touched" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> El nombre es requerido.
+        </small>
+        <small *ngIf="form.controls['nombre'].errors!['minlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Mínimo: {{form.controls["nombre"].errors!["minlength"].requiredLength}} caracteres.
+        </small>
+        <small *ngIf="form.controls['nombre'].errors!['maxlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Máximo: {{form.controls["nombre"].errors!["maxlength"].requiredLength}} caracteres.
+        </small>
+      </div>
+    </div>
+
+    <!-- APELLIDO -->
+    <div class="form-floating col-4">
+      <div class="form-floating mt-3">
+        <input type="text" class="form-control" id="floatingApellido" placeholder="Apellido" formControlName="apellido">
+        <label for="floatingApellido">Apellido</label>
+      </div>
+      <div *ngIf="form.controls['apellido'].errors != null">
+        <small *ngIf="form.controls['apellido'].errors!['required'] && form.controls['apellido'].touched" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> El apellido es requerido.
+        </small>
+        <small *ngIf="form.controls['apellido'].errors!['minlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Mínimo: {{form.controls["apellido"].errors!["minlength"].requiredLength}} caracteres.
+        </small>
+        <small *ngIf="form.controls['apellido'].errors!['maxlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Máximo: {{form.controls["apellido"].errors!["maxlength"].requiredLength}} caracteres.
+        </small>
+      </div>
+    </div>
+
+    <!-- EDAD -->
+    <div class="form-floating col-2">
+      <div class="form-floating mt-3">
+        <input type="number" class="form-control" id="floatingEdad" placeholder="Edad" formControlName="edad">
+        <label for="floatingEdad">Edad</label>
+      </div>
+      <div *ngIf="form.controls['edad'].errors! != null">
+        <small *ngIf="form.controls['edad'].errors!['required'] && form.controls['edad'].touched" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> La edad es requerida.
+        </small>
+        <small *ngIf="edad?.hasError('min')" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Mínimo: {{edad?.errors?.['min'].min}} años.
+        </small>
+        <small *ngIf="edad?.hasError('max')" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Máximo: {{edad?.errors?.['max'].max}} años.
+        </small>
+      </div>
+    </div>
+
+    <!-- DNI -->
+    <div class="form-floating col-2">
+      <div class="form-floating mt-3">
+        <input type="number" class="form-control" id="floatingDni" placeholder="DNI" formControlName="dni">
+        <label for="floatingDni">DNI</label>
+      </div>
+      <div *ngIf="form.controls['dni'].errors! != null">
+        <small *ngIf="form.controls['dni'].errors!['required'] && form.controls['dni'].touched" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> El dni es requerida.
+        </small>
+        <small *ngIf="dni?.hasError('min')" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Mínimo: {{dni?.errors?.['min'].min}} años.
+        </small>
+        <small *ngIf="dni?.hasError('max')" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Máximo: {{dni?.errors?.['max'].max}} años.
+        </small>
+      </div>
+    </div>
+
+    <!-- IMAGEN PERFIL -->
+    <div class="col-4" *ngIf="verInputs">
+      <div class="mt-3">
+        <input #imagen1 type="file" class="form-control" id="imagen1" accept=".jpg, .jpeg, .png, .jfif" />
+        <p><i class="bi bi-info-circle me-1"></i>Extensiones permitidas: <strong>jpg, jpeg, png, jfif.</strong></p>
+      </div>
+      <div *ngIf="!imagen1.value">
+        <small class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> La imagen es requerida.
+        </small>
+      </div>
+    </div>
+
+    <!-- CORREO -->
+    <div class="form-floating col-4">
+      <div class="form-floating mt-3">
+        <input type="text" class="form-control" id="floatingCorreo" placeholder="Correo electrónico" formControlName="correo">
+        <label for="floatingCorreo">Correo electrónico</label>
+      </div>
+      <div *ngIf="form.controls['correo'].errors != null">
+        <small *ngIf="form.controls['correo'].errors!['required'] && form.controls['correo'].touched" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> El Correo electrónico es requerido.
+        </small>
+        <small *ngIf="form.controls['correo'].errors!['minlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Mínimo: {{form.controls["correo"].errors!["minlength"].requiredLength}} caracteres.
+        </small>
+        <small *ngIf="form.controls['correo'].errors!['maxlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Máximo: {{form.controls["correo"].errors!["maxlength"].requiredLength}} caracteres.
+        </small>
+        <small *ngIf="form.controls['correo'].errors!['email']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> No tiene el formato de email.
+        </small>
+      </div>
+    </div>
+
+    <!-- CONTRASEÑA -->
+    <div class="form-floating col-2">
+      <div class="form-floating mt-3">
+        <input type="password" class="form-control" id="floatingClave" placeholder="Contraseña" formControlName="clave">
+        <label for="floatingClave">Contraseña</label>
+      </div>
+      <div *ngIf="form.controls['clave'].errors != null">
+        <small *ngIf="form.controls['clave'].errors!['required'] && form.controls['clave'].touched" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> La clave es requerida.
+        </small>
+        <small *ngIf="form.controls['clave'].errors!['minlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Mínimo: {{form.controls["clave"].errors!["minlength"].requiredLength}} caracteres.
+        </small>
+        <small *ngIf="form.controls['clave'].errors!['maxlength']" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Máximo: {{form.controls["clave"].errors!["maxlength"].requiredLength}} caracteres.
+        </small>
+      </div>
+    </div>
+
+    <!-- REPETIR CONTRASEÑA -->
+    <div class="form-floating col-2">
+      <div class="form-floating mt-3">
+        <input type="password" class="form-control" id="floatingRepiteClave" placeholder="Repetir Contraseña" formControlName="repiteClave">
+        <label for="floatingRepiteClave">Repetir Contraseña</label>
+      </div>
+      <div *ngIf="form.controls['repiteClave'].errors != null">
+        <small *ngFor="let error of getErrors(repiteClave?.errors)" class="invalid">
+          <i class="bi bi-exclamation-octagon"></i> Las contraseñas no coinciden.
+        </small>
+      </div>
+    </div>
+
+    <!-- ESPECIALIDAD -->
+    <div class="col-md-12">
+      <div class="form-floating mt-3">
+
+        <div class="row" *ngIf="this.tiposDeEspecialidades.length; else noHayEspecialidades">
+          <div class="col-4">
+            <label>Especialidades
+              <select #selectEspecialidad class="form-select form-select-lg mb-3">
+                <option *ngFor="let tipo of tiposDeEspecialidades;last as ultimo"
+                  [value]="tipo.id">{{tipo.especialidad}}
+                </option>
+              </select>
+            </label>
+
+            <button class="btn btn-info" type="button" (click)="sumarEspecialidad()"><i class="bi bi-plus-circle"></i></button>
+            <button class="btn btn-danger" type="button" (click)="borrarEspecialidad()"><i class="bi bi-trash3-fill"></i></button>
+
+          </div>
+          <div class="col-2">
+            <label>Su/s especialidad/es</label><br>
+            <ng-container *ngIf="especialidadesElegidas?.errors">
+              <small class="invalid">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                Campo Requerido
+              </small>
+            </ng-container>
+            <ng-template #elseEspecilidadess>
+              <small class="d-block hidden">.</small>
+            </ng-template>
+            <input type="text" formControlName="especialidadesElegidas" class="d-none">
+            <ul>
+              <li *ngFor="let especialidad of especialidadesDelEspecialista">{{especialidad.especialidad}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <ng-template #noHayEspecialidades>
+          <div *ngIf="faltaCargarEspecialidades;else baseVacia" class="border rounded-3 px-2 py-1 text-dark">
+            <h3 class="text-center">Las especialidades se están cargando</h3>
+            <div class="text-center">
+              <div class="spinner-border "></div>
+            </div>
+          </div>
+          <ng-template #baseVacia>
+            <div class="border rounded-3 px-2 py-1 text-light">
+              <h3 class="text-center">No hay especialidades</h3>
+            </div>
+          </ng-template>
+        </ng-template>
+
+        <form class="mt-3" [formGroup]="formEspecialidades">
+
+          <div class="row">
+            <div class="col-8">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingEspecialidad" placeholder="Especialidad" formControlName="especialidadAgregar">
+                <label for="floatingEspecialidad">Agregar especialidad</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-primary w-100 py-3" type="button" (click)="agregarEspecialidad()">Agregar</button>
+            </div>
+          </div>
+          <ng-container *ngIf="especialidad?.errors">
+            <small class="invalid" *ngFor="let error of getErrors(especialidad?.errors)">
+              <ng-container *ngIf="especialidad?.getError(error).mensaje!= 'Campo requerido.'
+                    ;else elseCampoRequerido">
+                <i class="bi bi-exclamation-octagon me-1"> Puede agregar su especialidad aquí.</i>
+                {{especialidad?.getError(error).mensaje}}
+              </ng-container>
+            </small>
+            <ng-template #elseCampoRequerido>
+              <small class="d-block hidden">.</small>
+            </ng-template>
+          </ng-container>
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- BOTONES -->
+    <ng-container *ngIf="verInputs">
+      <div class="col-6">
+        <button class="btn btn-outline-success mt-1 mb-3 py-3 w-100" type="submit">
+          <i class="bi bi-person-add me-1"></i>Aceptar</button>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-outline-secondary mt-1 py-3 w-100" type="button" (click)="borrar()">
+          <i class="bi bi-trash3 me-1"></i>Limpiar</button>
+      </div>
+    </ng-container>
+
+  </div>
+</form>

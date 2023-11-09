@@ -20,6 +20,9 @@
             "outputPath": "dist/tp-clinica-online",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "sweetalert2"
+            ],
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -28,22 +31,26 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "6mb",
+                  "maximumError": "6mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [

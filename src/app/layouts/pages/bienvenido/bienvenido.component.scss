@@ -1,0 +1,9 @@
+.main{
+  width: 100vw;
+  min-height: calc(100vh - var(--nav-height));
+  background-image: url('../../../../assets/bg/clinica-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}

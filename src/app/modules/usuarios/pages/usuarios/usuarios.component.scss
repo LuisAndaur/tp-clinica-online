@@ -1,0 +1,36 @@
+tr {
+  &:hover {
+    & td,
+    a {
+      cursor: pointer;
+      background-color: hsl(195deg, 90%, 32%) !important;
+      color: white;
+    }
+  }
+}
+
+th{
+  text-align: center;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+td{
+  text-align: center;
+}
+
+.soloVer{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  // background-color: rgba(0,0,0,0.3);
+  border-radius: 0.5rem;
+  z-index: 10;
+  cursor: not-allowed;
+}
+
+.main{
+  background-image: none;
+}

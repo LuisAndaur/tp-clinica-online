@@ -1,0 +1,22 @@
+.navbar {
+  z-index: 100;
+  & .nav-link {
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    & :hover {
+      color: var(--bs-primary);
+    }
+  }
+
+  & .active {
+    background-color: #e3f2fd;
+    border-radius: 0.25rem;
+    &--error {
+      background-color: var(--bs-danger);
+    }
+  }
+}
+
+.logo{
+  width: 60%;
+}

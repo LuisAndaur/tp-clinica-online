@@ -212,16 +212,11 @@ export class RegistroEspecialistaComponent implements OnInit {
     debugger;
     if(this.formEspecialidades.valid){
       const _especialidad = this.especialidad?.value.toUpperCase();
-      if(_especialidad != undefined){
-        this.tiposDeEspecialidades.forEach(e => {
-          if(e.especialidad == _especialidad){
-            this.swal.info("La especialidad que quiere agregar ya está disponible");
-            return;
-          }
-        });
+      if(this.tiposDeEspecialidades.some(e=> e.especialidad == _especialidad)){
+        this.swal.info("La especialidad que quiere agregar ya está disponible");
       }else{
         this.spinner.mostrar();
-        this.especialistaServicio.setEspecialidades(this.especialidad?.value)
+        this.especialistaServicio.setEspecialidades(this.especialidad?.value.toUpperCase())
         .then(()=>{
           this.swal.success("Se agregó la especialidad");
         })

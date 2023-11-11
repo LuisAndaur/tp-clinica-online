@@ -9,15 +9,20 @@
   display: none;
 }
 
-// label {
-//   display: inline-block;
-//   cursor: pointer;
-// }
+img{
+  width: 30%;
+}
 
-.radio-image {
-  border: 1rem solid transparent;
-  border-radius: 50%;
-  // border-color: var(--bs-danger);
+.radio-image-paciente {
+  background-color: darkslateblue;
+  border: 0.3rem solid darkslateblue;
+  border-radius: 10%;
+}
+
+.radio-image-especialista {
+  background-color: deeppink;
+  border: 0.3rem solid deeppink;
+  border-radius: 10%;
 }
 
 input[type="radio"]:checked + label .radio-image {

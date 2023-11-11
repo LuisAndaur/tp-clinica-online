@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Rol } from 'src/app/models/types/rol.type';
 
 @Component({
@@ -8,7 +8,6 @@ import { Rol } from 'src/app/models/types/rol.type';
 })
 export class RegistroComponent implements OnInit {
 
-  @ViewChild('selectRol', {static:false}) selectRol!: ElementRef;
   rol: Rol | null | 'sin elegir' = 'sin elegir';
 
   constructor() { }
@@ -16,8 +15,8 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  cambiarRol(): void{
-    this.rol = this.selectRol.nativeElement.value;
+  cambiarRol(rol: Rol): void{
+    this.rol = rol;
   }
 
 }

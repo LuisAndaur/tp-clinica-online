@@ -71,7 +71,7 @@ export class NavbarComponent implements OnInit {
   }
 
   cerrarNav(): void {
-    // ! 991 breakpoint
+
     if(window.innerWidth < 991) {
       this.toggleButtonNavbar.nativeElement.click();
     }
@@ -84,7 +84,6 @@ export class NavbarComponent implements OnInit {
       this.auth
         .cerrarSesion()
         .then(() => {
-          this.swal.success('Se cerró la sesión');
           this.router.navigate(['/bienvenido']);
         })
         .catch((e) => {

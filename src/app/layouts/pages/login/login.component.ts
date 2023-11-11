@@ -133,18 +133,29 @@ export class LoginComponent implements OnInit {
     return this.form.get('clave');
   }
 
-  completarDatos(rol:'paciente' | 'especialista' | 'administrador') {
-    if(rol == 'paciente'){
-      this.form.controls['correo'].setValue('yirzuritru@gufum.com');
-      this.form.controls['clave'].setValue('123456');
-    }else if(rol == 'especialista'){
-      this.form.controls['correo'].setValue('vadrovaydu@gufum.com');
-      this.form.controls['clave'].setValue('123456');
-    }else if(rol == 'administrador'){
-      this.form.controls['correo'].setValue('admin@clinica.com');
-      this.form.controls['clave'].setValue('123456');
-    }else{
-      this.swal.error("No esta implementado");
-    }
-  }
+  completarDatos(rol: 'paciente 1' | 'paciente 2' | 'paciente 3' | 'especialista 1' | 'especialista 2' | 'administrador'
+
+    ) {
+   if(rol == 'paciente 1'){
+     this.form.controls['correo'].setValue('yirzuritru@gufum.com');
+     this.form.controls['clave'].setValue('123456');
+   }else if(rol == 'paciente 2'){
+     this.form.controls['correo'].setValue('molmusorki@gufum.com');
+     this.form.controls['clave'].setValue('123456');
+   }else if(rol == 'paciente 3'){
+     this.form.controls['correo'].setValue('yarkedusta@gufum.com');
+     this.form.controls['clave'].setValue('123456');
+   }else if(rol == 'especialista 1'){
+     this.form.controls['correo'].setValue('vadrovaydu@gufum.com');
+     this.form.controls['clave'].setValue('123456');
+   }else if(rol == 'especialista 2'){
+     this.form.controls['correo'].setValue('kqozpnryazlvjyqyrc@cazlq.com');
+     this.form.controls['clave'].setValue('123456');
+   }else if(rol == 'administrador'){
+     this.form.controls['correo'].setValue('admin@clinica.com');
+     this.form.controls['clave'].setValue('123456');
+   }else{
+     this.swal.error("No existe");
+   }
+ }
 }

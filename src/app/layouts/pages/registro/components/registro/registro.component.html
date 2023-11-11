@@ -3,15 +3,17 @@
     <h2 class="text-center">Registrarme como:</h2>
     <form>
       <div class="row text-center">
-        <div class="col-md">
-          <div class="form-floating">
-            <select class="form-select" id="floatingSelectGrid" #selectRol (change)="cambiarRol()">
-              <option selected>Abrir este menú de selección</option>
-              <option [value]="'especialista'">Especialista</option>
-              <option [value]="'paciente'">Paciente</option>
-            </select>
-            <label for="floatingSelectGrid">Seleccione</label>
-          </div>
+        <div class="col-6">
+          <input class="radio" type="radio" id="radio1" name="radioGroup" (change)="cambiarRol('especialista')" [checked]="rol == 'especialista' ? true : false">
+          <label for="radio1">
+            <img src="../../../../../../assets/registro/especialista.png" alt="Especialista" class="radio-image-especialista">
+          </label>
+        </div>
+        <div class="col-6">
+          <input class="radio" type="radio" id="radio2" name="radioGroup" (change)="cambiarRol('paciente')" [checked]="rol == 'paciente' ? true : false">
+          <label for="radio2">
+            <img src="../../../../../../assets/registro/paciente.png" alt="Pacientes" class="radio-image-paciente">
+          </label>
         </div>
       </div>
     </form>

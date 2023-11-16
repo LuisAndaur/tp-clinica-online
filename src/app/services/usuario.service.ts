@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, deleteDoc, doc, getDocs, orderBy, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, orderBy, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { COLECCION } from '../models/constants/coleccion.constant';
 import { Foto } from '../models/class/foto.class';
 import { Paciente } from '../models/class/paciente.class';
@@ -109,4 +109,5 @@ export class UsuarioService {
       );
     return collectionData(q);
   }
+
 }

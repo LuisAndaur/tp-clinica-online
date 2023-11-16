@@ -52,6 +52,25 @@ export class SwalService {
     })
   }
 
+  async textarea(){
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Escriba aquí:",
+      inputPlaceholder: "Escriba los motivos aquí...",
+      inputAttributes: {
+        "aria-label": "Escriba los motivos aquí..."
+      },
+      showCancelButton: true
+    });
+
+    if(!text){
+      return undefined;
+    }
+
+    return text;
+
+  }
+
   question(item: string){
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {

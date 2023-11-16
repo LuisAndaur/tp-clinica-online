@@ -1,0 +1,6 @@
+table{
+  cursor: default;
+}
+tr:hover td{
+  background-color: var(--bs-info);
+}

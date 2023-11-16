@@ -1,0 +1,51 @@
+<main class="container contenido">
+  <div class="card border rounded" *ngIf="usuarioLogeado">
+    <div class="card-header">
+      <h3>Datos personales</h3>
+    </div>
+
+    <div class="card p-3 align-self-center mr-3">
+      <div class="d-flex align-items-center">
+          <div class="image" *ngIf="usuarioLogeado.rol == 'paciente';else elseNoEsPaciente">
+            <div *ngFor="let foto of usuarioLogeado.fotos">
+              <img [src]="foto.ruta" [alt]="foto.nombre" class="img-fluid-2">
+            </div>
+          </div>
+          <ng-template #elseNoEsPaciente>
+            <div class="image">
+              <div>
+                <img [src]="usuarioLogeado.foto.ruta" [alt]="usuarioLogeado.foto.nombre" class="img-fluid">
+              </div>
+            </div>
+          </ng-template>
+          <div class="ml-3 w-100">
+              <h4 class="mb-0 mt-0">{{usuarioLogeado.nombre}} {{usuarioLogeado.apellido}}</h4> <span>{{usuarioLogeado.rol | uppercase }}</span>
+              <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                  <div class="d-flex flex-column"> <span class="articles">Correo</span> <span class="number1">{{usuarioLogeado.correo}}</span> </div>
+                  <div class="d-flex flex-column"> <span class="followers">DNI</span> <span class="number2">{{usuarioLogeado.dni}}</span> </div>
+                  <div class="d-flex flex-column"> <span class="rating">Edad</span> <span class="number3">{{usuarioLogeado.edad}}</span> </div>
+                  <div class="d-flex flex-column"> <span class="rating">Fecha de Registro</span> <span class="number3">{{usuarioLogeado.fechaRegistro | date: 'dd/MM/yyyy' }}</span> </div>
+              </div>
+              <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                  <ng-container [ngSwitch]="usuarioLogeado.rol">
+                    <div class="d-flex flex-column" *ngSwitchCase="'paciente'"> <span class="rating">Obra social</span> <span class="number3">{{usuarioLogeado.obraSocial}}</span> </div>
+                    <div class="d-flex flex-column" *ngSwitchCase="'especialista'"> <span class="rating">Especialidad/es</span> <span class="number3" *ngFor="let especialidad of usuarioLogeado.especialidades">{{especialidad.especialidad | uppercase}}</span> </div>
+                  </ng-container>
+              </div>
+              <ng-container [ngSwitch]="usuarioLogeado.rol">
+                <div class="button mt-2 d-flex flex-row align-items-center" *ngSwitchCase="'especialista'">
+                  <button class="btn btn-sm btn-success w-100 ml-2" [routerLink]="'/mi-perfil/mis-horarios'">Mis horarios</button>
+                </div>
+              </ng-container>
+          </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+
+
+
+

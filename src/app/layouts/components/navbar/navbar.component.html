@@ -24,6 +24,39 @@
           </ul>
         </li>
 
+        <li *ngIf="usuarioLogeado;" class="nav-item dropdown" routerLinkActive="active">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Turnos
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="rol == 'administrador' || rol == 'paciente'">
+              <a class="dropdown-item" [routerLink]="'/turnos/solicitar-turno'"  (click)="cerrarNav()">
+                Solicitar turno
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" [routerLink]="'/turnos/mis-turnos'"  (click)="cerrarNav()">
+                Ver turnos
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+        <li *ngIf="usuarioLogeado;" class="nav-item dropdown" routerLinkActive="active">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Perfil
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="'/mi-perfil/'"  (click)="cerrarNav()">
+                Mi perfil
+              </a>
+            </li>
+          </ul>
+        </li>
+
       </ul>
       <div class="my-2 my-lg-0">
         <ng-container *ngIf="usuarioLogeado;">

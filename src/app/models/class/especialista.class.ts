@@ -1,5 +1,5 @@
-import { EstadoUsuario } from "../types/estado-usuario.type";
-import { Rol } from "../types/rol.type";
+import { estadoUsuario } from "../types/estado-usuario.type";
+import { rol } from "../types/rol.type";
 import { Especialidad } from "./especialidad.class";
 import { Foto } from "./foto.class";
 import { Horarios } from "./horarios.class";
@@ -14,8 +14,8 @@ export class Especialista {
   correo!: string;
   clave!: string;
   foto!: Foto;
-  estado: EstadoUsuario = 'pendiente';
-  rol: Rol = 'especialista';
+  estado: estadoUsuario = 'pendiente';
+  rol: rol = 'especialista';
   fechaRegistro: number = new Date().getTime();
   horarios: Array<Horarios> = [];
 }

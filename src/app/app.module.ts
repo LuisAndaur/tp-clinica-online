@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -28,6 +28,10 @@ import { SwalService } from './services/swal.service';
 import { TransformService } from './services/transform.service';
 import { UsuarioService } from './services/usuario.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeEs, 'es');
 
 
 @NgModule({
@@ -64,7 +68,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SpinnerService,
     SwalService,
     TransformService,
-    UsuarioService
+    UsuarioService,
+    {provide: LOCALE_ID, useValue: 'es'}
   ],
   bootstrap: [AppComponent]
 })

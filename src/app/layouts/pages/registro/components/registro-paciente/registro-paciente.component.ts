@@ -11,6 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { confirmarClaveValidator } from '../../validators/clave.validator';
 import { Foto } from 'src/app/models/class/foto.class';
 import { VPACIENTE } from '../../constants/vpaciente.constant';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-registro-paciente',
@@ -26,6 +27,8 @@ export class RegistroPacienteComponent implements OnInit, OnChanges {
   imagenes: Array<File | null> = [];
   imagenesUrl: Array<string> = [];
   verInputs: boolean = true;
+
+  siteKey: string = environment.recaptcha2;
 
   @HostListener('change', ['$event.target'])
   async emitFiles(eventTarget: any) {
@@ -159,6 +162,10 @@ export class RegistroPacienteComponent implements OnInit, OnChanges {
         validators: [Validators.required, Validators.minLength(VPACIENTE.CLAVE.MIN), Validators.maxLength(VPACIENTE.CLAVE.MAX)],
       }),
 
+      recaptcha: new FormControl("", {
+        validators: [ Validators.required]
+      }),
+
     },[confirmarClaveValidator(), Validators.required]);
   }
 
@@ -194,7 +201,7 @@ export class RegistroPacienteComponent implements OnInit, OnChanges {
     paciente.apellido = this.apellido?.value.toUpperCase();
     paciente.edad = this.edad?.value;
     paciente.dni = this.dni?.value;
-    paciente.obraSocial = this.obraSocial?.value;
+    paciente.obraSocial = this.obraSocial?.value.toUpperCase();
     paciente.correo = this.correo?.value;
     paciente.clave = this.clave?.value;
     return paciente;

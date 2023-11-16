@@ -1,1 +1,1 @@
-export type EstadoUsuario = 'pendiente' | 'aceptado' | 'rechazado' | 'anulado';
+export type estadoUsuario = 'pendiente' | 'aceptado' | 'rechazado' | 'anulado';

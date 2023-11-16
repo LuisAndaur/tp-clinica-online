@@ -1,0 +1,57 @@
+<main class="main">
+
+  <div class="container">
+
+    <h5 *ngIf="turnosDePaciente?.length == 0; else hayTurnos"
+      class="bg-light text-danger rounded py-1 px-3">
+      Usted no tiene turnos
+    </h5>
+
+    <ng-template #hayTurnos>
+
+      <div class="table-responsive">
+        <table class="table  text-center">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Duración</th>
+              <th>Paciente</th>
+              <th>Especialista</th>
+              <th>Especialidad</th>
+              <th >Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+
+          <tbody  *ngFor="let turnoPaciente of turnosDePaciente!">
+            <tr class="tr-hover">
+              <td>{{turnoPaciente.turno.fechaInicio | date: 'fullDate' | uppercase}}</td>
+              <td>{{turnoPaciente.turno.horaInicio}}</td>
+              <td>{{turnoPaciente.turno.horaFinal}}</td>
+              <td>{{turnoPaciente.turno.duracion}}</td>
+              <td>{{turnoPaciente.paciente.apellido }}</td>
+              <td>{{turnoPaciente.especialista.apellido }}</td>
+              <td> {{turnoPaciente.turno.especialidad.especialidad}}</td>
+              <td><strong><em>{{turnoPaciente.turno.estadoTurno}}</em></strong></td>
+              <td>
+                <button *ngIf="turnoPaciente.turno.estadoTurno != 'Terminado'
+                            && turnoPaciente.turno.estadoTurno != 'Cancelado'
+                            ;else noAplica
+                " class="btn btn-outline-danger" (click)="cancelarTurno(turnoPaciente.turno)">
+                  Cancelar
+                </button>
+                <ng-template #noAplica>
+                  N/A
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+
+  </div>
+
+</main>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Rol } from 'src/app/models/types/rol.type';
+import { rol } from 'src/app/models/types/rol.type';
 
 @Component({
   selector: 'app-registro',
@@ -8,14 +8,14 @@ import { Rol } from 'src/app/models/types/rol.type';
 })
 export class RegistroComponent implements OnInit {
 
-  rol: Rol | null | 'sin elegir' = 'sin elegir';
+  rol: rol | null | 'sin elegir' = 'sin elegir';
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  cambiarRol(rol: Rol): void{
+  cambiarRol(rol: rol): void{
     this.rol = rol;
   }
 

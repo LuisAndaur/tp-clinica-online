@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { COLECCION } from 'src/app/models/constants/coleccion.constant';
-import { EstadoUsuario } from 'src/app/models/types/estado-usuario.type';
-import { Rol } from 'src/app/models/types/rol.type';
+import { estadoUsuario } from 'src/app/models/types/estado-usuario.type';
+import { rol } from 'src/app/models/types/rol.type';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         await this.usuario.getUsuarioAsync('correo', this.correo?.value)
           .then(async usuario=> {
             if(usuario){
-              const rol = (usuario as any).rol as Rol;
+              const rol = (usuario as any).rol as rol;
               if(rol == 'administrador'){
                 await this.registrarFecha(usuario.correo);
                 this.swal.success('Acceso concedido');
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
                 this.localStorage.guardarItem(COLECCION.LOGEADO, usuario);
               }else{
                 if(verificado){
-                  const estado = usuario.estado as EstadoUsuario;
+                  const estado = usuario.estado as estadoUsuario;
                   if(estado == 'aceptado'){
                     await this.registrarFecha(usuario.correo);
                     this.swal.success('Acceso concedido');

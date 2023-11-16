@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { EstadoUsuario } from 'src/app/models/types/estado-usuario.type';
-import { Rol } from 'src/app/models/types/rol.type';
+import { estadoUsuario } from 'src/app/models/types/estado-usuario.type';
+import { rol } from 'src/app/models/types/rol.type';
 import { AuthService } from 'src/app/services/auth.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { SwalService } from 'src/app/services/swal.service';
@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   usuarioLogeado: boolean = false;
   correoLogeado!: string;
   usuarioNombreCompleto: string = "";
-  rol: Rol | null = null;
+  rol: rol | null = null;
 
   constructor(
     private auth: AuthService,
@@ -43,14 +43,14 @@ export class NavbarComponent implements OnInit {
         this.usuario.getUsuarioAsync("correo",usuario?.email)
         .then((_usuario)=>{
           if(_usuario){
-            if(_usuario.rol as Rol == 'administrador'){
+            if(_usuario.rol as rol == 'administrador'){
               this.usuarioLogeado = true;
               this.correoLogeado = _usuario.correo;
               this.usuarioNombreCompleto = `${_usuario.nombre} ${_usuario.apellido}`;
               this.rol = _usuario.rol;
             } else {
               if(usuario.emailVerified){
-                if(_usuario.estado as EstadoUsuario == 'aceptado'){
+                if(_usuario.estado as estadoUsuario == 'aceptado'){
                   this.usuarioLogeado = true;
                   this.correoLogeado = _usuario.correo;
                   this.usuarioNombreCompleto = `${_usuario.nombre} ${_usuario.apellido}`;

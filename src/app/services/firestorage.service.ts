@@ -18,7 +18,6 @@ export class FirestorageService {
   guardarArchivo(archivo: File, carpeta: string): Observable<string> {
 
     const fecha = this.transform.fechaToString(new Date(), true , true);
-    // const fecha = new Date().getTime();
     const nombreDelArchivo = `${carpeta}${fecha}__${uuidv4()}__${archivo.name}`;
 
     const fileRef = this.storage.ref(nombreDelArchivo);

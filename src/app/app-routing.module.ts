@@ -5,6 +5,7 @@ import { LoginComponent } from './layouts/pages/login/login.component';
 import { BienvenidoComponent } from './layouts/pages/bienvenido/bienvenido.component';
 import { NoLogueadoGuard } from './guards/no-logueado.guard';
 import { EsAdminGuard } from './guards/es-admin.guard';
+import { LogueadoGuard } from './guards/logueado.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'bienvenido', pathMatch: 'full' },
@@ -26,6 +27,16 @@ const routes: Routes = [
     path: 'usuarios',
     loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule) ,
     canActivate: [ EsAdminGuard ]
+  },
+  {
+    path: 'mi-perfil',
+    loadChildren: () => import('./modules/mi-perfil/mi-perfil.module').then(m => m.MiPerfilModule) ,
+    canActivate: [ LogueadoGuard ]
+  },
+  {
+    path: 'turnos',
+    loadChildren: () => import('./modules/turnos/turnos.module').then(m => m.TurnosModule) ,
+    canActivate: [ LogueadoGuard ]
   },
   {
     path: 'error',

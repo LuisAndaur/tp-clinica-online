@@ -1,1 +1,1 @@
-export type Duracion = 30 | 60 ;
+export type duracion = 30 | 60 ;

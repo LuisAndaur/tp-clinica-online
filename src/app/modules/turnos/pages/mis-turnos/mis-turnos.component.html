@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="this.usuarioLogeado.rol">
+  <app-turnos-administrador  *ngSwitchCase="'administrador'"></app-turnos-administrador>
+  <app-mis-turnos-paciente  *ngSwitchCase="'paciente'"></app-mis-turnos-paciente>
+  <app-mis-turnos-especialista *ngSwitchCase="'especialista'"></app-mis-turnos-especialista>
+</ng-container>

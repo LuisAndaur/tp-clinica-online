@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { VESPECIALISTA } from '../../constants/vespecialista.constant';
 import { COLECCION } from 'src/app/models/constants/coleccion.constant';
-import { Rol } from 'src/app/models/types/rol.type';
+import { rol } from 'src/app/models/types/rol.type';
 import { Especialista } from 'src/app/models/class/especialista.class';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Especialidad } from 'src/app/models/class/especialidad.class';
@@ -14,6 +14,7 @@ import { EspecialistaService } from 'src/app/services/especialista.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { confirmarClaveValidator } from '../../validators/clave.validator';
 import { Foto } from 'src/app/models/class/foto.class';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-registro-especialista',
@@ -28,13 +29,15 @@ export class RegistroEspecialistaComponent implements OnInit {
   @ViewChild('selectEspecialidad', {static:false}) selectEspecialidad!: ElementRef;
   form!: FormGroup;
   formEspecialidades!: FormGroup;
-  rol: Rol | null = 'especialista';//'paciente';
+  rol: rol | null = 'especialista';//'paciente';
   imagenes: Array<File | null> = [];
   imagenesUrl: Array<string> = [];
   tiposDeEspecialidades: Array<any> = [];
   faltaCargarEspecialidades: boolean = true;
   verInputs: boolean = true;
   especialidadesDelEspecialista: Array<Especialidad> = [];
+
+  siteKey: string = environment.recaptcha2;
 
   @HostListener('change', ['$event.target'])
   async emitFiles(eventTarget: any) {
@@ -49,7 +52,6 @@ export class RegistroEspecialistaComponent implements OnInit {
       }
     }
   }
-
 
   constructor(
     private swal: SwalService,
@@ -175,6 +177,10 @@ export class RegistroEspecialistaComponent implements OnInit {
 
       repiteClave: new FormControl(this.especialista?.clave, {
         validators: [Validators.required, Validators.minLength(VESPECIALISTA.CLAVE.MIN), Validators.maxLength(VESPECIALISTA.CLAVE.MAX)],
+      }),
+
+      recaptcha: new FormControl("", {
+        validators: [ Validators.required]
       }),
 
     },[confirmarClaveValidator(), Validators.required]);

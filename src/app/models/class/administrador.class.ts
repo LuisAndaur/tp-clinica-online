@@ -1,5 +1,5 @@
-import { EstadoUsuario } from "../types/estado-usuario.type";
-import { Rol } from "../types/rol.type";
+import { estadoUsuario } from "../types/estado-usuario.type";
+import { rol } from "../types/rol.type";
 import { Foto } from "./foto.class";
 
 export class Administrador {
@@ -11,7 +11,7 @@ export class Administrador {
   correo!: string;
   clave!: string;
   foto!: Foto;
-  estado: EstadoUsuario = 'aceptado';
-  rol: Rol = 'administrador';
+  estado: estadoUsuario = 'aceptado';
+  rol: rol = 'administrador';
   fechaRegistro: number = new Date().getTime();
 }

@@ -1,16 +1,16 @@
 import { EDia } from "../enums/dia.enum";
-import { Dia } from "../types/dia.type";
-import { Duracion } from "../types/duracion.type";
-import { HorarioSemanaFinal } from "../types/horario-semana-final.type";
-import { HorarioSemanaInicio } from "../types/horario-semana-inicio.type";
+import { dia } from "../types/dia.type";
+import { duracion } from "../types/duracion.type";
+import { horarioSemanaFinal } from "../types/horario-semana-final.type";
+import { horarioSemanaInicio } from "../types/horario-semana-inicio.type";
 import { Especialidad } from "./especialidad.class";
 
 export class Horarios {
-  dia!: Dia;
+  dia!: dia;
   diaNumero!: EDia;
-  duracion!: Duracion;
-  horaInicio!: HorarioSemanaInicio;
-  horaFinal!: HorarioSemanaFinal;
+  duracion!: duracion;
+  horaInicio!: horarioSemanaInicio;
+  horaFinal!: horarioSemanaFinal;
   especialidad!: Especialidad;
   id?: string;
 }

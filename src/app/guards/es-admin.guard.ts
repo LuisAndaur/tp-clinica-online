@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { LocalStorageService } from '../services/local-storage.service';
 import { COLECCION } from '../models/constants/coleccion.constant';
-import { Rol } from '../models/types/rol.type';
+import { rol } from '../models/types/rol.type';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class EsAdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const usuario = this.localStorage.obtenerItem(COLECCION.LOGEADO);
-      const tipoUsurio = usuario?.rol as Rol;
+      const tipoUsurio = usuario?.rol as rol;
 
       if(tipoUsurio === 'administrador'){
         return true;

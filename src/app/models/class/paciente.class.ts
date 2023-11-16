@@ -1,5 +1,5 @@
-import { EstadoUsuario } from "../types/estado-usuario.type";
-import { Rol } from "../types/rol.type";
+import { estadoUsuario } from "../types/estado-usuario.type";
+import { rol } from "../types/rol.type";
 import { Foto } from "./foto.class";
 
 export class Paciente {
@@ -12,7 +12,7 @@ export class Paciente {
   correo!: string;
   clave!: string;
   fotos: Array<Foto> = [];
-  estado: EstadoUsuario = 'aceptado';
-  rol: Rol = 'paciente';
+  estado: estadoUsuario = 'aceptado';
+  rol: rol = 'paciente';
   fechaRegistro: number = new Date().getTime();
 }

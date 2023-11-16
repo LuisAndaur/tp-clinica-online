@@ -3,8 +3,8 @@ import { Administrador } from 'src/app/models/class/administrador.class';
 import { Especialista } from 'src/app/models/class/especialista.class';
 import { Paciente } from 'src/app/models/class/paciente.class';
 import { COLECCION } from 'src/app/models/constants/coleccion.constant';
-import { EstadoUsuario } from 'src/app/models/types/estado-usuario.type';
-import { Rol } from 'src/app/models/types/rol.type';
+import { estadoUsuario } from 'src/app/models/types/estado-usuario.type';
+import { rol } from 'src/app/models/types/rol.type';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
@@ -83,7 +83,7 @@ export class UsuariosComponent implements OnInit {
       })
   }
 
-  modificar(posicion: number, rol: Rol, soloVer: boolean): void{
+  modificar(posicion: number, rol: rol, soloVer: boolean): void{
     this.soloVer = soloVer;
     this.limpiarAltaRegistro();
     if(rol == 'paciente'){
@@ -95,7 +95,7 @@ export class UsuariosComponent implements OnInit {
     }
   }
 
-  ver(posicion: number, rol: Rol, soloVer: boolean): void{
+  ver(posicion: number, rol: rol, soloVer: boolean): void{
     this.modificar(posicion, rol, soloVer);
   }
 
@@ -123,7 +123,7 @@ export class UsuariosComponent implements OnInit {
     this.especialista = new Especialista();
   }
 
-  private actualizarEstado(usuario:any, estado: EstadoUsuario){
+  private actualizarEstado(usuario:any, estado: estadoUsuario){
     if(usuario.estado == estado){
       this.swal.info("Sin modificar: Ya posee ese estado el usuario.");
     }else{
@@ -153,7 +153,7 @@ export class UsuariosComponent implements OnInit {
     this.actualizarEstado(usuario,'anulado');
   }
 
-  permitirActualizarEstado(usuario:any, estado: EstadoUsuario): boolean{
+  permitirActualizarEstado(usuario:any, estado: estadoUsuario): boolean{
     return usuario.estado == estado;
   }
 

@@ -12,7 +12,8 @@ export const environment = {
     apiKey: 'AIzaSyBV3VYfVLbRab7C8oI0R_aKTUIluUGhB4o',
     authDomain: 'clinica-online-a8b98.firebaseapp.com',
     messagingSenderId: '672545724574',
-  }
+  },
+  recaptcha2 : '6LeHSgspAAAAADDLhFLkcJKfwJZNahL4FsHbSDLv',
 };
 
 /*

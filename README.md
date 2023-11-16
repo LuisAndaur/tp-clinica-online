@@ -18,7 +18,7 @@
 
 # Administrador
 ## Página mi perfil
-![Página mi perfil](./src/assets/readme/mi-perfil-paciente.JPG)
+![Página mi perfil](./src/assets/readme/mi-perfil-admin.JPG)
 
 ## Página solicitar turno
 ![Página solicitar turno](./src/assets/readme/solicitar-turno-admin.JPG)

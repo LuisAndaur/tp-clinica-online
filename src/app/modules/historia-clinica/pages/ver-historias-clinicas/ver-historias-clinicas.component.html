@@ -1,0 +1,71 @@
+<div class="pop-custom">
+  <div class="bg-light rounded container p-3 bounce-in-right" #efectoSalida>
+    <div class="table-responsive bg-light" *ngIf="turnosEspecialista.length > 0;else noHayHistoriaClinica">
+      <h5>Historias clínicas</h5>
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Paciente</th>
+            <th>Altura (cm)</th>
+            <th>Peso (kgs)</th>
+            <th>Temperatura (ºC)</th>
+            <th>Presion</th>
+            <th>Clave1</th>
+            <th>Valor1</th>
+            <th>Clave2</th>
+            <th>Valor2</th>
+            <th>Clave3</th>
+            <th>Valor3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tr-hover" *ngFor="let turno of turnosEspecialista; index as indice">
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.fechaInicio | fechaCompleta}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.paciente.nombre}}, {{turno.paciente.apellido}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.altura}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.peso}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.temperatura}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.presion}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d1?.clave}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d1?.valor}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d2?.clave}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d2?.valor}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d3?.clave}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d3?.valor}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noHayHistoriaClinica>
+      <h1 class="text-danger">No existen historias clínicas</h1>
+    </ng-template>
+    <div>
+      <button type="button" class="btn btn-outline-warning" (click)="ocultarHistorias()">Ocultar</button>
+    </div>
+  </div>
+</div>

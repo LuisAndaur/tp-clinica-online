@@ -21,6 +21,12 @@
                 Administrar usuarios
               </a>
             </li>
+
+            <li>
+              <a class="dropdown-item" [routerLink]="'/historia-clinica/todas'"  (click)="cerrarNav()">
+                Historias clínicas
+              </a>
+            </li>
           </ul>
         </li>
 
@@ -52,6 +58,25 @@
             <li>
               <a class="dropdown-item" [routerLink]="'/mi-perfil/'"  (click)="cerrarNav()">
                 Mi perfil
+              </a>
+            </li>
+
+            <li *ngIf="rol == 'paciente'">
+              <a class="dropdown-item" [routerLink]="'/historia-clinica/mi-historia-clinica'"  (click)="cerrarNav()">
+                Mi historia clínica
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li *ngIf="rol == 'especialista'" class="nav-item dropdown" routerLinkActive="active">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pacientes
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="'/historia-clinica/pacientes'"  (click)="cerrarNav()">
+                Historias clínicas
               </a>
             </li>
           </ul>

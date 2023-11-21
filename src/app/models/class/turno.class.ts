@@ -1,9 +1,11 @@
 import { duracion } from "../types/duracion.type";
 import { estadoTurno } from "../types/estado-turno.type";
 import { Especialidad } from "./especialidad.class";
+import { HistoriaClinica } from "./historia-clinica.class";
 
 export class Turno {
   id?: string;
+  fecha!: string;
   horaInicio!: string;
   horaFinal!: string;
   duracion!: duracion;
@@ -20,4 +22,5 @@ export class Turno {
   calificacionPaciente: string = "";
   diagnosticoEspecialista: string = "";
   comentarioAdministrador: string = "";
+  historiaClinica?: HistoriaClinica;
 }

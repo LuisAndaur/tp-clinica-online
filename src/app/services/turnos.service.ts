@@ -12,6 +12,9 @@ import { Especialista } from '../models/class/especialista.class';
 import { BehaviorSubject, take } from 'rxjs';
 import { TurnoCompleto } from '../models/class/turno-completo.class';
 import { Paciente } from '../models/class/paciente.class';
+import { TurnoEspecialista } from '../models/class/turno-especialista.class';
+import { SwalService } from './swal.service';
+import { TurnoPaciente } from '../models/class/turno-paciente.class';
 
 const SEMANAS = 5;
 
@@ -23,11 +26,15 @@ export class TurnosService {
   private usuarioLogeado!: Especialidad;
   private colleccionTurnos: any;
   turnosCompleto: BehaviorSubject<Array<TurnoCompleto>> = new BehaviorSubject<Array<TurnoCompleto>>([]);
+  turnosDeEspecialista: BehaviorSubject<Array<TurnoEspecialista>> = new BehaviorSubject<Array<TurnoEspecialista>>([]);
+  turnosDePaciente: BehaviorSubject<Array<TurnoPaciente>> = new BehaviorSubject<Array<TurnoPaciente>>([]);
+  turnosDePacienteParaAdministrador: BehaviorSubject<Array<TurnoPaciente>> = new BehaviorSubject<Array<TurnoPaciente>>([]);
 
   constructor(
     private localStorage: LocalStorageService,
     private firestore: Firestore,
     private usuarios: UsuarioService,
+    private swal: SwalService
     )
   {
     this.usuarioLogeado = this.localStorage.obtenerItem(COLECCION.LOGEADO);
@@ -59,6 +66,14 @@ export class TurnosService {
   }
 
   modificarTurno(turno:Turno){
+
+    if(turno.historiaClinica){
+      turno.historiaClinica.datosDinamicos.d1 = {... turno.historiaClinica.datosDinamicos.d1}
+      turno.historiaClinica.datosDinamicos.d2 = {... turno.historiaClinica.datosDinamicos.d2}
+      turno.historiaClinica.datosDinamicos.d3 = {... turno.historiaClinica.datosDinamicos.d3}
+      turno.historiaClinica.datosDinamicos = {... turno.historiaClinica.datosDinamicos}
+      turno.historiaClinica = {... turno.historiaClinica}
+    }
 
     const documento = doc(this.colleccionTurnos, turno.id);
     return updateDoc(documento, {
@@ -166,6 +181,7 @@ export class TurnosService {
         const _turno = JSON.parse(JSON.stringify(turno)) as Turno;
 
         _turno.idEspecialista = this.usuarioLogeado.id;
+        _turno.fecha = fi.toLocaleDateString('es');
         _turno.fechaInicio = fi.getTime();
         _turno.fechaFinal = ff.getTime();
 
@@ -214,12 +230,135 @@ export class TurnosService {
       })
   }
 
+  traerTurnoPacienteParaAdministrador(){
+    this.getTurnosParaElAdministrador()
+      .pipe(take(1))
+      .subscribe((_turnos) => {
+        const turnos = _turnos as Array<Turno>;
+        if(turnos){
+          this.usuarios.getUsuariosFiltrado('rol','especialista')
+            .pipe(take(1))
+            .subscribe((_especialistas)=>{
+              const especialistas = _especialistas as Array<Especialista>;
+              if(especialistas){
+                const turnosDePacienteParaAdministrador = turnos?.map((turno)=>{
+                  const especialista = especialistas[especialistas.findIndex(e=>e.id == turno.idEspecialista)] as Especialista;
+                  const turnoPaciente = new TurnoPaciente()
+                  turnoPaciente.turno = turno
+                  turnoPaciente.especialista = especialista;
+                  return turnoPaciente;
+                });
+                this.turnosDePacienteParaAdministrador.next(turnosDePacienteParaAdministrador);
+              }else{
+                this.turnosDePacienteParaAdministrador.next([]);
+              }
+            });
+        }else{
+          this.turnosDePacienteParaAdministrador.next([]);
+        }
+      })
+  }
+
   getTurnosParaElAdministrador(){
     const estadoTurno : estadoTurno = "Libre";
     const q = query(this.colleccionTurnos,
       where('estadoTurno', '!=', estadoTurno),
       );
     return collectionData(q, { idField: 'id' });
+  }
+
+  traerTurnoEspecialista(idEspecialista:string){
+    this.getTurnosPorEspecialista(idEspecialista)
+      .pipe(take(1))
+      .subscribe((_turnos) => {
+        if(_turnos){
+          const turnos = (_turnos as Array<Turno>).filter(turno => turno.estadoTurno != 'Libre');
+          this.usuarios.getUsuariosFiltrado('rol','paciente')
+            .pipe(take(1))
+            .subscribe((_pacientes)=>{
+              const pacientes = _pacientes as Array<Paciente>;
+              if(pacientes){
+                const _turnosDeEspecialista = turnos?.map((turno)=>{
+                  const paciente = pacientes[pacientes.findIndex(e=>e.id == turno.idPaciente)] as Paciente;
+                  const turnoEspecialista = new TurnoEspecialista()
+                  turnoEspecialista.turno = turno
+                  turnoEspecialista.paciente = paciente;
+                  return turnoEspecialista;
+                });
+                this.turnosDeEspecialista.next(_turnosDeEspecialista);
+              }else{
+                this.turnosDeEspecialista.next([]);
+              }
+            });
+        }else{
+          this.turnosDeEspecialista.next([]);
+        }
+    })
+  }
+
+  getTurnosPorEspecialista(idEspecialista: string){
+
+    const q = query(this.colleccionTurnos,
+      where('idEspecialista', '==', idEspecialista),
+      );
+    return collectionData(q, { idField: 'id' });
+  }
+
+  traerTurnoPaciente(idPaciente: string){
+    this.getTurnosPorPaciente(idPaciente)
+      .pipe(take(1))
+      .subscribe((_turnos) => {
+        const turnos = _turnos as Array<Turno>;
+        if(turnos){
+          this.usuarios.getUsuariosFiltrado('rol','especialista')
+            .pipe(take(1))
+            .subscribe((_especialistas)=>{
+              const especialistas = _especialistas as Array<Especialista>;
+              if(especialistas){
+                const turnosDePaciente = turnos?.map((turno)=>{
+                  const especialista = especialistas[especialistas.findIndex(e=>e.id == turno.idEspecialista)] as Especialista;
+                  const turnoPaciente = new TurnoPaciente()
+                  turnoPaciente.turno = turno
+                  turnoPaciente.especialista = especialista;
+                  return turnoPaciente;
+                });
+                this.turnosDePaciente.next(turnosDePaciente);
+              }else{
+                this.turnosDePaciente.next([]);
+              }
+            });
+        }else{
+          this.turnosDePaciente.next([]);
+        }
+    })
+  }
+
+  getTurnosPorPaciente(idPaciente: string){
+    const q = query(this.colleccionTurnos,
+      where('idPaciente', '==', idPaciente),
+      );
+    return collectionData(q, { idField: 'id' });
+  }
+
+  verResenia(turno: Turno){
+    if(turno?.reseniaEspecialista){
+      this.swal.infoTitle(turno?.reseniaEspecialista, "Reseña del Especialista");
+    }
+    if(turno?.comentarioEspecialista){
+      this.swal.infoTitle(turno?.comentarioEspecialista, "Comentario del Especialista");
+    }
+    if(turno?.comentarioPaciente){
+      this.swal.infoTitle(turno?.comentarioPaciente, "Comentario del Paciente");
+    }
+    if(turno?.comentarioAdministrador){
+      this.swal.infoTitle(turno?.comentarioAdministrador, "Comentario del Administrador");
+    }
+  }
+
+  verDiagnostico(turno: Turno){
+    if(turno?.diagnosticoEspecialista){
+      this.swal.infoTitle(turno?.diagnosticoEspecialista, "Diagnostico del Especialista");
+    }
   }
 
 }

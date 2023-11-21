@@ -1,0 +1,179 @@
+<div class="pop-custom">
+  <div class="bg-light rounded container pb-3">
+    <h5>Completar historia clínica</h5>
+    <form [formGroup]="form" class="row">
+
+      <!-- ALTURA -->
+      <div class="form-floating col-3">
+        <div class="form-floating mt-3">
+          <input type="number" class="form-control" id="floatingAltura" placeholder="Altura" formControlName="altura">
+          <label for="floatingAltura">Altura (cm)</label>
+        </div>
+        <div *ngIf="form.controls['altura'].errors! != null">
+          <small *ngIf="form.controls['altura'].errors!['required'] && form.controls['altura'].touched" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> La altura es requerida.
+          </small>
+          <small *ngIf="altura?.hasError('min')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Mínimo: {{altura?.errors?.['min'].min}} cm.
+          </small>
+          <small *ngIf="altura?.hasError('max')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Máximo: {{altura?.errors?.['max'].max}} cm.
+          </small>
+        </div>
+      </div>
+
+      <!-- PESO -->
+      <div class="form-floating col-3">
+        <div class="form-floating mt-3">
+          <input type="number" class="form-control" id="floatingPeso" placeholder="Peso" formControlName="peso" step=0.01>
+          <label for="floatingPeso">Peso (kgs)</label>
+        </div>
+        <div *ngIf="form.controls['peso'].errors! != null">
+          <small *ngIf="form.controls['peso'].errors!['required'] && form.controls['peso'].touched" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> El peso es requerido.
+          </small>
+          <small *ngIf="peso?.hasError('min')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Mínimo: {{peso?.errors?.['min'].min}} kgs.
+          </small>
+          <small *ngIf="peso?.hasError('max')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Máximo: {{peso?.errors?.['max'].max}} kgs.
+          </small>
+        </div>
+      </div>
+
+      <!-- TEMPERATURA -->
+      <div class="form-floating col-3">
+        <div class="form-floating mt-3">
+          <input type="number" class="form-control" id="floatingTemperatura" placeholder="Temperatura" formControlName="temperatura" step=0.01>
+          <label for="floatingTemperatura">Temperatura (ºC)</label>
+        </div>
+        <div *ngIf="form.controls['temperatura'].errors! != null">
+          <small *ngIf="form.controls['temperatura'].errors!['required'] && form.controls['temperatura'].touched" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> La temperatura es requerida.
+          </small>
+          <small *ngIf="temperatura?.hasError('min')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Mínimo: {{temperatura?.errors?.['min'].min}} ºC.
+          </small>
+          <small *ngIf="temperatura?.hasError('max')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Máximo: {{temperatura?.errors?.['max'].max}} ºC.
+          </small>
+        </div>
+      </div>
+
+      <!-- PRESION -->
+      <div class="form-floating col-3">
+        <div class="form-floating mt-3">
+          <input type="number" class="form-control" id="floatingPresion" placeholder="Presion" formControlName="presion" step=0.01>
+          <label for="floatingPresion">Presión</label>
+        </div>
+        <div *ngIf="form.controls['presion'].errors! != null">
+          <small *ngIf="form.controls['presion'].errors!['required'] && form.controls['presion'].touched" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> La presion es requerida.
+          </small>
+          <small *ngIf="presion?.hasError('min')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Mínimo: {{presion?.errors?.['min'].min}} ºC.
+          </small>
+          <small *ngIf="presion?.hasError('max')" class="invalid">
+            <i class="bi bi-exclamation-octagon"></i> Máximo: {{presion?.errors?.['max'].max}} ºC.
+          </small>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="row">
+
+      <div class="col-2">
+        <div class="form-floating mt-3">
+          <input
+            type="text" class="form-control" id="floatingPresion" placeholder="Clave 1"
+            [(ngModel)]="clave1" (keyup)="posiblementeBorroValor1()">
+          <label for="floatingPresion">Clave 1</label>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="form-floating mt-3">
+          <input
+            type="text" class="form-control" id="floatingPresion" placeholder="Valor 1"
+            [readOnly]="clave1.trim()==''" [(ngModel)]="valor1" >
+          <label for="floatingPresion">Valor 1</label>
+        </div>
+        <small class="is-invalid" [ngStyle]="{'visibility':validarValor1()?'hidden':'visible'}">
+          <i class="bi bi-exclamation-octagon me-1"></i>
+          Campo requerido
+        </small>
+      </div>
+
+      <div class="col-2">
+        <div class="form-floating mt-3">
+          <input
+            type="text" class="form-control" id="floatingPresion" placeholder="Clave 2"
+            [(ngModel)]="clave2" (keyup)="posiblementeBorroValor2()">
+          <label for="floatingPresion">Clave 2</label>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-floating mt-3">
+          <input
+            type="text" class="form-control" id="floatingPresion" placeholder="Valor 2"
+            [readOnly]="clave2.trim()==''" [(ngModel)]="valor2" >
+          <label for="floatingPresion">Valor 2</label>
+        </div>
+        <small class="is-invalid" [ngStyle]="{'visibility':validarValor2()?'hidden':'visible'}">
+          <i class="bi bi-exclamation-octagon me-1"></i>
+          Campo requerido
+        </small>
+      </div>
+
+      <div class="col-2">
+        <div class="form-floating mt-3">
+          <input
+            type="text" class="form-control" id="floatingPresion" placeholder="Clave 3"
+            [(ngModel)]="clave3" (keyup)="posiblementeBorroValor3()">
+          <label for="floatingPresion">Clave 3</label>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="form-floating mt-3">
+          <input
+            type="text" class="form-control" id="floatingPresion" placeholder="Valor 3"
+            [readOnly]="clave3.trim()==''" [(ngModel)]="valor3" >
+          <label for="floatingPresion">Valor 3</label>
+        </div>
+        <small class="is-invalid" [ngStyle]="{'visibility':validarValor3()?'hidden':'visible'}">
+          <i class="bi bi-exclamation-octagon me-1"></i>
+          Campo requerido
+        </small>
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="mt-3">
+          <button type="button" class="btn btn-outline-primary w-100 py-3"
+            (click)="enviarForm()">
+            Guardar
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="my-3">
+          <button type="button" class="btn btn-outline-danger w-100 py-3"
+            (click)="borrarForm()">
+            Borrar
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="my-3">
+          <button type="button" class="btn btn-outline-warning w-100 py-3"
+            (click)="cancelarForm()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

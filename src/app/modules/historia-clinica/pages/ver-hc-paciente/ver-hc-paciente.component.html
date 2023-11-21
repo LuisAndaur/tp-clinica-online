@@ -1,0 +1,18 @@
+<main class="main position-relative">
+  <div class="pop-custom d-flex justify-content-center align-items-center">
+    <button type="button" class="btn btn-outline-primary"
+      (click)="mostrar=true">
+      Mostrar historias clinicas
+    </button>
+  </div>
+  <ng-container *ngIf="mostrar">
+
+    <app-ver-mi-historia-clinica
+      *ngIf="turnosDePaciente != null"
+      [turnosDePaciente]="turnosDePaciente"
+      (ocultar)="mostrar = $event"
+      [sePuedeDescargarPDF] = "true">
+    </app-ver-mi-historia-clinica>
+
+  </ng-container>
+</main>

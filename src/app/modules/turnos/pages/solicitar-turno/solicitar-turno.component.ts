@@ -34,6 +34,10 @@ export class SolicitarTurnoComponent implements OnInit {
   unsubTurnos!:  any;
   idUsuario: string = "";
   pacienteElegido: Paciente | null = null;
+  filtroEspecialidadesDelEspecialista: Array<Especialidad> | null = null;
+  filtroDiasTurnos? : Array<Turno> | null = null;
+  filtroHorasTurnos? : Array<Turno> | null = null;
+  fechaDelTurno: string = "";
 
   constructor(
     private localStorage: LocalStorageService,
@@ -84,25 +88,37 @@ export class SolicitarTurnoComponent implements OnInit {
   elegirEspecialidad(especialidad: Especialidad){
 
     this.filtroEspecialidad = especialidad.especialidad;
-    this.filtroEspecialista = null;
+    this.filtroDiasTurnos = null;
+    this.filtroHorasTurnos = null;
     this.turnos = null;
-    this.filtrarEspecialistas(this.especialistas);
+    this.trerTurnos();
+    // this.filtrarEspecialistas(this.especialistas);
   }
 
   elegirEspecialista(especialista: Especialista){
     debugger;
     this.filtroEspecialista = especialista;
-    this.trerTurnos();
+    this.filtroEspecialidadesDelEspecialista = especialista.especialidades;
+    // this.trerTurnos();
 
   }
 
   elegirPaciente(paciente: Paciente){
     this.pacienteElegido = paciente;
+    this.filtroDiasTurnos = null;
+    this.filtroHorasTurnos = null;
+    this.filtroEspecialidad = "";
+    this.filtroEspecialidadesDelEspecialista = null;
   }
 
-  private async trerTurnos(){
-    this.unsubTurnos = this.turnosService.getTurnosEspecialistaYEspecialidad(this.filtroEspecialista!.id,this.filtroEspecialidad)
+  private trerTurnos(){
+
+    let turnosDias: Array<Turno> = [];
+    let fechas: Array<string> = [];
+
+    const unsubTurnos = this.turnosService.getTurnosEspecialistaYEspecialidad(this.filtroEspecialista!.id,this.filtroEspecialidad)
     .subscribe((_turnos=>{
+      unsubTurnos.unsubscribe();
       console.log("TURNOS: ",_turnos);
       debugger;
       // Obtener la fecha y hora dentro de 15 días
@@ -118,20 +134,51 @@ export class SolicitarTurnoComponent implements OnInit {
         });
       this.turnos?.sort((a,b)=> a.fechaInicio - b.fechaInicio);
 
-      // console.log(this.turnos);
+      this.turnos?.forEach(turno => {
 
-      this.unsubTurnos.unsubscribe();
+        if(!fechas.includes(turno.fecha)){
+          fechas.push(turno.fecha);
+          turnosDias.push(turno);
+        }
+
+      });
+
+      this.filtroDiasTurnos = turnosDias;
+      // this.filtroDiasTurnos = Array.from(new Set(diasTurnos));
+
+      console.log("FILTRO DIAS: ", this.filtroDiasTurnos);
     }))
 
-    return await this.unsubTurnos;
+  }
 
+  elegirDia(dia: number){
+
+    this.filtroHorasTurnos = null;
+    let turnosDias: Array<Turno> = [];
+
+    this.turnos?.forEach(turno => {
+
+      let fecha = new Date(dia);
+
+      if(turno.fecha == fecha.toLocaleDateString('es')){
+        this.fechaDelTurno = turno.fecha;
+        turnosDias.push(turno);
+      }
+
+    });
+
+    this.filtroHorasTurnos = turnosDias;
+    this.filtroHorasTurnos?.sort((a,b)=> a.fechaInicio - b.fechaInicio);
+
+    console.log("DIA ELEGIDO: ", dia);
+    console.log("FILTRO DIAS: ", this.filtroDiasTurnos);
   }
 
   elegirTurno(turno: Turno) {
     this.spinner.mostrar();
 
     turno.idPaciente = this.pacienteElegido?.id!;
-    turno.estadoTurno = 'Reservado';
+    turno.estadoTurno = 'Solicitado';
 
     this.turnosService.modificarTurno(turno)
       .then(()=>{
@@ -145,7 +192,8 @@ export class SolicitarTurnoComponent implements OnInit {
           || turno.estadoTurno == posibilidades[2]
         })!;
 
-        this.swal.success("El turno fue reservado");
+        this.swal.success("El turno fue solicitado");
+        this.elegirDia(turno.fechaInicio);
 
       })
       .catch((e:Error)=>{
@@ -176,6 +224,7 @@ export class SolicitarTurnoComponent implements OnInit {
     }
     console.log(this.especialistasFiltrados);
   }
+
 
 
 }

@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
+export interface IOpcionesDobleSwal {
+  opcion1: string;
+  opcion2: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +57,17 @@ export class SwalService {
     })
   }
 
+  infoTitle(text: string, title: string){
+    Swal.fire({
+      // position: 'top-end',
+      icon: 'info',
+      title: title,
+      text: text,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
   async textarea(){
     const { value: text } = await Swal.fire({
       input: "textarea",
@@ -69,6 +85,48 @@ export class SwalService {
 
     return text;
 
+  }
+
+  async textareaTitle( title: string ){
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: title,
+      inputPlaceholder: "Escriba los motivos aquí...",
+      inputAttributes: {
+        "aria-label": "Escriba los motivos aquí..."
+      },
+      showCancelButton: true
+    });
+
+    if(!text){
+      return undefined;
+    }
+
+    return text;
+
+  }
+
+  async option(opciones: IOpcionesDobleSwal, mensaje: string, titulo: string): Promise<null | string | undefined>{
+    const { dismiss, value: respuesta } = await Swal.fire({
+      title: titulo,
+      text: mensaje,
+      input: 'radio',
+      inputOptions: opciones,
+      showCancelButton: true,
+      customClass: 'swal-custom',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    })
+
+    if(dismiss?.toString() === 'esc' || dismiss?.toString() === 'cancel'){
+      return null;
+    }
+
+    if(!respuesta){
+      return undefined;
+    }
+
+    return respuesta;
   }
 
   question(item: string){

@@ -111,6 +111,7 @@ export class MisHorariosComponent implements OnInit {
   enviar(){
     debugger;
     if(this.form.valid){
+
       const horarios = this.getHorarios();
       const respuesta = this.especialistaServicio.validarHorarios(horarios)
       if(respuesta[0]) {

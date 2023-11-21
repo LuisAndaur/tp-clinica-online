@@ -1,1 +1,105 @@
-<p>mis-turnos-paciente works!</p>
+<main class="main">
+
+  <div class="container">
+
+    <h5 *ngIf="turnosDePaciente?.length == 0; else hayTurnos"class="bg-light text-danger rounded py-1 px-3">Usted no tiene turnos</h5>
+
+    <ng-template #hayTurnos>
+      <div class="pb-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-floating mt-3">
+              <input type="text" class="form-control w-100" id="floatingNombre" placeholder="Nombre" [(ngModel)]="filtro">
+              <label for="floatingNombre">Filtro</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive"  [@slideAnimation]>
+        <table class="table  text-center">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+              <th>Duración</th>
+              <th>Especialista</th>
+              <th>Especialidad</th>
+              <th>Estado</th>
+              <th>Acción</th>
+              <th>Historia Clinica</th>
+            </tr>
+          </thead>
+
+          <tbody  *ngFor="let turnoPaciente of turnosDePaciente! | filtroTurnosPaciente:filtro; ">
+            <tr class="tr-hover">
+              <td class="align-middle">{{turnoPaciente.turno.fechaInicio | fechaCompleta }}</td>
+              <td class="align-middle">{{turnoPaciente.turno.horaInicio}}</td>
+              <td class="align-middle">{{turnoPaciente.turno.horaFinal}}</td>
+              <td class="align-middle">{{turnoPaciente.turno.duracion}} min</td>
+              <td class="align-middle">{{turnoPaciente.especialista.nombre}} {{turnoPaciente.especialista.apellido}}</td>
+              <td class="align-middle">{{turnoPaciente.turno.especialidad.especialidad}}</td>
+              <td class="align-middle"><strong><em>{{turnoPaciente.turno.estadoTurno}}</em></strong></td>
+              <td class="d-flex flex-row justify-content-center">
+                <!-- Cancelar -->
+                <button *ngIf="turnoPaciente.turno.estadoTurno != 'Realizado'
+                            && turnoPaciente.turno.estadoTurno != 'Cancelado'"
+                  title="Cancelar" class="btn btn-outline-danger" (click)="cancelarTurno(turnoPaciente.turno)">
+                  <i class="bi bi-trash"></i>
+                </button>
+
+                <!-- Ver reseña/comentarios -->
+                <button *ngIf="turnoPaciente.turno.reseniaEspecialista
+                    || turnoPaciente.turno.comentarioEspecialista
+                    || turnoPaciente.turno.comentarioPaciente
+                    || turnoPaciente.turno.comentarioAdministrador"
+                    title="Ver reseña/comentarios" class="btn btn-outline-info" (click)="verResenia(turnoPaciente.turno)">
+                    <i class="bi bi-chat-square-text"></i>
+                </button>
+
+                <!-- Ver diagnostico -->
+                <button *ngIf="turnoPaciente.turno.diagnosticoEspecialista != ''"
+                  title="Ver diagnostico" class="btn btn-outline-secondary border" (click)="verDiagnostico(turnoPaciente.turno)">
+                  <i class="bi bi-file-earmark-text"></i>
+                </button>
+
+                <!-- Encuesta -->
+                <button *ngIf="turnoPaciente.turno.estadoTurno == 'Realizado'
+                              && turnoPaciente.turno.reseniaEspecialista
+                              && !turnoPaciente.turno.encuestaPaciente"
+                  title="Cargar Encuesta" class="btn btn-outline-primary" (click)="completarEncuesta(turnoPaciente.turno)">
+                  <i class="bi bi-journal-check"></i>
+                </button>
+
+                <button *ngIf="turnoPaciente.turno.estadoTurno == 'Realizado'
+                              && (!turnoPaciente.turno.calificacionPaciente)"
+                  title="Calificar Atención" class="btn btn-outline-success" (click)="calificar(turnoPaciente.turno)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+              </td>
+              <td class="align-middle">
+                <button *ngIf="turnoPaciente.turno.historiaClinica;else noTieneHistoriaClinica" class="btn btn-warning"
+                  title="Ver historia clinica" (click)="verHistoriasClinicas(turnoPaciente)">
+                  <i class="bi bi-search"></i>
+                </button>
+                <ng-template #noTieneHistoriaClinica>
+                  N/A
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+
+  </div>
+
+  <app-ver-mi-historia-clinica
+    *ngIf="turnosConHistoriasClinicas"
+    [turnosDePaciente]="turnosConHistoriasClinicas"
+    [posicionDeHistoria]="posicionDeHistoria"
+    (ocultar)="turnosConHistoriasClinicas = $event">
+  </app-ver-mi-historia-clinica>
+
+</main>

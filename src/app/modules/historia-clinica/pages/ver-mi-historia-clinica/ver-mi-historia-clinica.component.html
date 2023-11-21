@@ -1,0 +1,88 @@
+<div class="pop-custom">
+  <div class="bg-light rounded container p-3" [@slideAnimation]>
+    <div class="table-responsive bg-light"
+        *ngIf="turnosDePaciente.length > 0;else noHayHistoriaClinica">
+         <div *ngIf="sePuedeDescargarPDF;" class="w-100">
+          <div class="form-floating mt-3">
+            <input type="text" class="form-control w-100" id="floatingNombre" placeholder="Nombre" [(ngModel)]="filtro">
+            <label for="floatingNombre">Filtro</label>
+          </div>
+         </div>
+      <table
+        id="htmlData"
+        class="table text-center"
+        >
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Especialista</th>
+            <th>Especialidad</th>
+            <th>Altura (cm)</th>
+            <th>Peso (kgs)</th>
+            <th>Temperatura (ºC)</th>
+            <th>Presion</th>
+            <th>Clave1</th>
+            <th>Valor1</th>
+            <th>Clave2</th>
+            <th>Valor2</th>
+            <th>Clave3</th>
+            <th>Valor3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tr-hover"
+            *ngFor="let turno of turnosDePaciente | filtroTurnosPaciente: filtro ; index as indice">
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.fechaInicio | fechaCompleta }}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.especialista.nombre}}, {{turno.especialista.apellido}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.especialidad.especialidad}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.altura}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.peso}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.temperatura}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.presion}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d1?.clave}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d1?.valor}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d2?.clave}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d2?.valor}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d3?.clave}}
+            </td>
+            <td [ngClass]="{'tr-select':posicionDeHistoria == indice}">
+              {{turno.turno.historiaClinica?.datosDinamicos?.d3?.valor}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noHayHistoriaClinica>
+      <h5 class="text-danger">No existen historias clinicas</h5>
+    </ng-template>
+    <div>
+      <button type="button" class="btn btn-outline-warning mt-2" (click)="ocultarHistorias()">Ocultar</button>
+      <ng-container *ngIf="sePuedeDescargarPDF;">
+        <button type="button" class="btn btn-success btn-block float-end" (click)="descargarPDF()">Descargar PDF</button>
+      </ng-container>
+    </div>
+  </div>
+</div>

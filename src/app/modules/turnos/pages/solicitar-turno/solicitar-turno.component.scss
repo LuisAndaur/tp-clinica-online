@@ -1,0 +1,65 @@
+.avatar{
+  padding: 0.25rem;
+  &__img{
+    width: 60px;
+  }
+  &__button{
+    background-color: white;
+    border: 0.2rem solid darkgrey;
+    border-radius: 10%;
+    height: 100px;
+    width: 100px;
+    &--auto{
+      min-height: auto;
+    }
+  }
+}
+
+.default{
+  padding: 0.25rem;
+  &__img{
+    width: 90px;
+  }
+  &__button{
+    background-color: white;
+    border: 0.2rem solid darkgrey;
+    border-radius: 5%;
+    height: 100px;
+    width: 150px;
+    &--auto{
+      min-height: auto;
+    }
+  }
+}
+
+.day{
+  padding: 0.25rem;
+  &__button{
+    background-color: white;
+    border: 0.2rem solid darkgrey;
+    border-radius: 5%;
+    height: 100px;
+    width: 100px;
+    &--auto{
+      min-height: auto;
+    }
+  }
+}
+
+.hora{
+  padding: 0.25rem;
+  &__button{
+    background-color: white;
+    border: 0.2rem solid darkgrey;
+    border-radius: 5%;
+    height: 50px;
+    width: 100px;
+    &--auto{
+      min-height: auto;
+    }
+  }
+}
+
+.dayHour{
+  margin: 0;
+}

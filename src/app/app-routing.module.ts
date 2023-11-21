@@ -39,6 +39,11 @@ const routes: Routes = [
     canActivate: [ LogueadoGuard ]
   },
   {
+    path: 'historia-clinica',
+    loadChildren: () => import('./modules/historia-clinica/historia-clinica.module').then(m => m.HistoriaClinicaModule) ,
+    canActivate: [ LogueadoGuard ]
+  },
+  {
     path: 'error',
     component: ErrorComponent
   },

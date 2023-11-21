@@ -31,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
+import { PdfService } from './services/pdf.service';
 registerLocaleData(localeEs, 'es');
 
 
@@ -41,7 +42,7 @@ registerLocaleData(localeEs, 'es');
     BienvenidoComponent,
     ErrorComponent,
     NavbarComponent,
-    SpinnerComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +70,7 @@ registerLocaleData(localeEs, 'es');
     SwalService,
     TransformService,
     UsuarioService,
+    PdfService,
     {provide: LOCALE_ID, useValue: 'es'}
   ],
   bootstrap: [AppComponent]

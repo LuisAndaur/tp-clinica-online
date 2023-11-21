@@ -26,14 +26,46 @@
         </ng-template>
       </div>
 
-      <div class="col-12" *ngIf="pacienteElegido != null">
+      <!-- ESPECIALISTAS -->
+      <div class="col-12">
+        <ng-container *ngIf="pacienteElegido != null">
+          <ng-container *ngIf="especialistas?.length; else buscandoEspecialistas">
+            <h4>Especialistas</h4>
+            <div class="d-flex justify-content-center align-items-center flex-row">
+              <div *ngFor="let especialista of especialistas" class="col-6 col-md-4 col-lg-2 text-center avatar">
+                <button type="button" class="avatar__button" (click)="elegirEspecialista(especialista)">
+                  <img class="avatar__img" [src]="especialista.foto.ruta" [alt]="especialista.nombre">
+                </button>
+                <p class="text-secondary">{{ especialista.nombre }} {{ especialista.apellido }}</p>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #buscandoEspecialistas>
+            <div *ngIf="especialistas === null;else noHayEspecialistas" class="text-secondary center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden"></span>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #noHayEspecialistas>
+              <h5>No hay especialistas</h5>
+          </ng-template>
+        </ng-container>
+      </div>
+
+
+      <!-- ESPECIALIDADES -->
+      <div class="col-12" *ngIf="filtroEspecialidadesDelEspecialista != null">
         <div *ngIf="especialidades?.length; else esperandoEspecialidades">
-          <h4>Especialidades</h4>
-          <ol>
-            <li class="li-hover" *ngFor="let especialidad of especialidades" (click)="elegirEspecialidad(especialidad)" style="cursor: pointer;">
-              {{especialidad.especialidad}}
-            </li>
-          </ol>
+          <h4>Especialidades de {{ filtroEspecialista!.nombre }} {{ filtroEspecialista!.apellido }}</h4>
+          <div class="d-flex justify-content-center align-items-center flex-row">
+            <div *ngFor="let especialidad of filtroEspecialidadesDelEspecialista!" class="col-6 col-md-4 col-lg-2 text-center">
+              <button type="button" class="default__button default__button--auto" (click)="elegirEspecialidad(especialidad)">
+                <img class="default__img" src="../../../../../assets/especialidad/img-default.png" [alt]="especialidad.especialidad">
+              </button>
+              <p class="text-secondary pt-1">{{especialidad.especialidad}}</p>
+            </div>
+          </div>
         </div>
         <ng-template #esperandoEspecialidades>
           <div *ngIf="especialidades === null;else noHayEspecialidades" class="text-secondary center">
@@ -48,71 +80,45 @@
         </ng-template>
       </div>
 
+
+      <!-- TURNOS -->
       <div class="col-12">
-        <ng-container *ngIf="filtroEspecialidad != ''">
-          <ng-container *ngIf="especialistasFiltrados?.length; else noHayEspecialistas">
-            <h4>Especialistas en '{{filtroEspecialidad}}'</h4>
-            <ol>
-              <li class="li-hover" *ngFor="let especialista of especialistasFiltrados!;" style="cursor: pointer;" (click)="elegirEspecialista(especialista)">
-                {{ especialista.nombre }} {{ especialista.apellido }}
-              </li>
-            </ol>
-            <span *ngIf="false">TODO: Verificar de otra forma mas eficiente</span>
-            <h5 *ngIf="(especialistasFiltrados! ).length === 0; else hayComoEspecialistaElegido" class="text-danger">
-              No se encontraron especialistas.
-            </h5>
-          </ng-container>
-          <ng-template #noHayEspecialistas>
-            <div *ngIf="especialistasFiltrados === null;else noHayEspecialistas" class="text-info center">
+        <ng-container *ngIf="filtroEspecialidad">
+          <ng-container *ngIf="turnos?.length; else esperandoTurnos">
+            <h5>Días de '{{this.filtroEspecialidad}}' disponibles.</h5>
+            <div class="d-flex justify-content-center align-items-center flex-row row">
+              <div *ngFor="let turno of filtroDiasTurnos" class="col-6 col-md-4 col-lg-2 text-center mb-2">
+                <button type="button" class="day__button day__button--auto" (click)="elegirDia(turno.fechaInicio)">
+                  <p class="text-secondary dayHour">{{turno.fechaInicio | date: 'dd-MM-yyyy' }}</p>
+                </button>
+              </div>
             </div>
-              <h5>No hay especialistas</h5>
+          </ng-container>
+
+          <ng-container *ngIf="filtroHorasTurnos != null && filtroDiasTurnos?.length;">
+            <h5>Horarios disponibles para el {{this.fechaDelTurno}}.</h5>
+            <div class="d-flex justify-content-center align-items-center flex-row row">
+              <div *ngFor="let turno of filtroHorasTurnos" class="col mt-5 text-center">
+                <button type="button" class="hora__button hora__button--auto" (click)="elegirTurno(turno)">
+                  <p class="text-secondary dayHour">{{turno.fechaInicio | date: 'h:mm a' }}</p>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #esperandoTurnos>
+            <div *ngIf="turnos === null;else noHayTurnosDisponibles" class="text-secondary center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden"></span>
+              </div>
+            </div>
+            <ng-template #noHayTurnosDisponibles>
+              <h5 class="text-danger">No hay turnos disponibles.</h5>
+            </ng-template>
           </ng-template>
         </ng-container>
       </div>
 
-      <ng-template #hayComoEspecialistaElegido>
-        <div class="col-12">
-          <ng-container *ngIf="filtroEspecialista != null">
-            <ng-container *ngIf="turnos?.length; else esperandoTurnos">
-              <h5>Turnos de '{{filtroEspecialista.nombre}} {{filtroEspecialista.apellido}}' disponibles.</h5>
-              <div>
-                <div class="table-responsive">
-                  <table class="table  text-center">
-                    <thead>
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Inicio</th>
-                        <th>Fin</th>
-                        <th>Duración</th>
-                      </tr>
-                    </thead>
-                    <thead *ngFor="let turno of turnos">
-                      <tr (click)="elegirTurno(turno)" class="tr-hover">
-                        <td>{{turno.fechaInicio |date: 'fullDate' | uppercase}}</td>
-                        <td>{{turno.horaInicio}}</td>
-                        <td>{{turno.horaFinal}}</td>
-                        <td>{{turno.duracion}}</td>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-
-              </div>
-
-            </ng-container>
-            <ng-template #esperandoTurnos>
-              <div *ngIf="turnos === null;else noHayTurnosDisponibles" class="text-secondary center">
-                <div class="spinner-border" role="status">
-                  <span class="visually-hidden"></span>
-                </div>
-              </div>
-              <ng-template #noHayTurnosDisponibles>
-                <h5 class="text-danger">No hay turnos disponibles.</h5>
-              </ng-template>
-            </ng-template>
-          </ng-container>
-        </div>
-      </ng-template>
 
     </div>
   </div>
